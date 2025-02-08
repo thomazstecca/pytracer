@@ -22,12 +22,17 @@ class vec3:
 
     def length(self):
         return (self.length_squared())**(1/2)
-    
-    def dot(self, other): # dot product
-        return (self.e[0] * other.e[0] + self.e[1] * other.e[1] + self.e[2] * other.e[2])
-
-    def cross(self, other): #cross product
-        return vec3(self.e[1] * other.e[2] - self.e[2] * other.e[1], self.e[2] * other.e[0] - self.e[0] * other.e[2], self.e[0] * other.e[1] - self.e[1] * other.e[0])
 
     def unit(self):
         return (self / self.length())
+
+
+    
+def dot(v, u): # dot product
+    return (v.e[0] * u.e[0] + v.e[1] * u.e[1] + v.e[2] * u.e[2])
+
+def cross(v, u): #cross product
+    return vec3(v.e[1] * u.e[2] - v.e[2] * u.e[1], self.e[2] * other.e[0] - self.e[0] * other.e[2], self.e[0] * other.e[1] - self.e[1] * other.e[0])
+
+
+

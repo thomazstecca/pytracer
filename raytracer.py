@@ -2,19 +2,13 @@ import logging
 
 from vec3 import * 
 from color import *
+from ray import *
+from hittable import *
 
-class ray:
-    def __init__(self, origin: vec3 = 0, direction: vec3 = 0):
-        self.origin = origin
-        self.direction = direction
 
-    def at(t):
-        return (origin + (direction * t))
 
-def ray_color(ray):
-    unit_direction = ray.direction.unit()
-    a = (unit_direction.e[1] + 1 ) * 0.5
-    return color(1, 1, 1)*(1 - a) + color(0.5, 0.7, 1.0)*a
+
+
 
 def make_image():
 
@@ -28,6 +22,13 @@ def make_image():
     image_height = int(image_width / aspect_ratio)
     image_height = 1 if image_height < 1 else image_height
 
+
+    #World
+    world = []
+    world.append(sphere(vec3(0,0,-1), 0.5))
+    world.append(sphere(vec3(0,-100.5,-1), 100))
+
+    
     #Camera
     focal_length = 1.0
     viewport_height = 2.0
@@ -43,11 +44,9 @@ def make_image():
     viewport_upper_left = camera_center - vec3(0,0,focal_length) - viewport_u/2 - viewport_v/2
     pixel00_loc = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5
 
-    
-    
-    
+        
     #render
-    print("P3\n", image_width, ' ', image_height, "\n255\n")
+    print("P3\n"+str(image_width)+' '+str(image_height)+"\n255\n")
     for j in range(image_height):
         #logging.info("\rScanlines remaining: " + str(height - j))
         for i in range(image_width):
@@ -55,7 +54,7 @@ def make_image():
             ray_direction = pixel_center - camera_center
             r = ray(camera_center, ray_direction)
 
-            pixel_color = ray_color(r)
+            pixel_color = ray_color(r, world)
             write_color(pixel_color)
     #logging.info("\rDone.                 ")
 
